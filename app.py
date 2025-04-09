@@ -61,9 +61,13 @@ if uploaded_file:
 
     # Correlation heatmap
     st.subheader("📌 Correlation Heatmap")
-    fig4, ax4 = plt.subplots(figsize=(10, 6))
-    sns.heatmap(df.corr(), annot=True, cmap='coolwarm', ax=ax4)
-    st.pyplot(fig4)
+    numeric_df = df.select_dtypes(include='number')
+    if not numeric_df.empty:
+        fig4, ax4 = plt.subplots(figsize=(10, 6))
+        sns.heatmap(numeric_df.corr(), annot=True, cmap='coolwarm', ax=ax4)
+        st.pyplot(fig4)
+    else:
+        st.info("No numeric columns available for correlation analysis.")
 
 else:
     st.info("Please upload a CSV file to get started.")
